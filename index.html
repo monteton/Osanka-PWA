@@ -472,15 +472,10 @@
 
         } else if (mode === 'ios-safari') {
           // 📱 iOS Safari: обязательная установка — объясняем ЗАЧЕМ и КАК
-          titleEl.textContent = '⚠️ Нужна установка!';
-          subtitleEl.textContent = 'Без этого счётчик дней не запустится и доступ к урокам не откроется';
+
           btn.style.display = 'none';
           stepsEl.innerHTML = `
               <div class="ios-guide">
-                <div style="background:rgba(198,129,244,0.15);border:1px solid rgba(198,129,244,0.4);border-radius:12px;padding:0.75rem 1rem;margin-bottom:1rem;font-size:0.9rem;line-height:1.5;text-align:left;">
-                  📅 <b>Счётчик дней</b> работает только в установленном приложении<br>
-                  🏠 <b>Ярлык</b> появится на рабочем столе — заходить в 1 касание
-                </div>
                 <div class="ios-steps-list">
                   <div class="ios-step">
                     <div class="ios-step-num">1</div>
