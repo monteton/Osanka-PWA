@@ -349,17 +349,12 @@
           showBanner('ios-other');
         }
 
-        // === Для Chrome/Android/Desktop — ждём 1500мс на beforeinstallprompt ===
+        // === Для Chrome/Android/Desktop — ждём 500мс на beforeinstallprompt ===
         if (!bannerShown) {
           setTimeout(() => {
             if (bannerShown) return;
             if (isAndroid && !deferredPrompt) {
-              if (isChrome) {
-                // Chrome Android: промпт не пришёл — показываем ручную инструкцию
-                showBanner('android-chrome-manual');
-              } else {
-                showBanner('android-other');
-              }
+              showBanner('android-other');
             } else if (!isAndroid && !isIOS && !deferredPrompt) {
               if (isChrome) {
                 showBanner('desktop-chrome');
@@ -367,7 +362,7 @@
                 showBanner('desktop-other');
               }
             }
-          }, 1500);
+          }, 500);
         }
 
         // === Название текущего браузера ===
@@ -568,25 +563,6 @@
             } else {
               showDesktopChromePrompt(titleEl, subtitleEl, btn, stepsEl);
             }
-
-          } else if (mode === 'android-chrome-manual') {
-            // 🤖 Chrome Android: beforeinstallprompt не пришёл — ручная установка через меню
-            titleEl.textContent = 'Установить в Chrome';
-            subtitleEl.textContent = 'Два шага — и приложение на экране';
-            btn.style.display = 'none';
-            stepsEl.innerHTML = `
-              <div class="ios-guide">
-                <div class="ios-steps-list">
-                  <div class="ios-step">
-                    <div class="ios-step-num">1</div>
-                    <span>Нажмите <b>⋮</b> (три точки) в правом верхнем углу</span>
-                  </div>
-                  <div class="ios-step">
-                    <div class="ios-step-num">2</div>
-                    <span>Выберите <b>«Добавить на главный экран»</b> → <b>Добавить</b> 🎉</span>
-                  </div>
-                </div>
-              </div>`;
 
           } else if (mode === 'desktop-chrome') {
             // ✅ Chrome без промпта (нет HTTPS или критерии PWA не выполнены)
