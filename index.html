@@ -321,6 +321,7 @@
         // === Определение браузера ===
         const isChrome = /Chrome/i.test(ua) && !/OPR|Opera|Edge|Edg|Samsung|UCBrowser|YaBrowser/i.test(ua) && !isWebView;
         const isSafari = /Safari/i.test(ua) && !/Chrome|CriOS|FxiOS|OPiOS|mercury|UCBrowser|YaBrowser/i.test(ua) && !isWebView;
+        const isChromeIOS = /CriOS/i.test(ua);
         const isOpera = /OPR|Opera/i.test(ua);
         const isFirefox = /Firefox|FxiOS/i.test(ua);
         const isSamsung = /SamsungBrowser/i.test(ua);
@@ -344,6 +345,7 @@
         } else if (isIOS && isSafari) {
           showBanner('ios-safari');
         } else if (isIOS && !isSafari) {
+          // Chrome iOS, Firefox iOS и другие не-Safari браузеры на iOS
           showBanner('ios-other');
         }
 
@@ -390,6 +392,7 @@
         // === Открыть в Safari через URL scheme (iOS) ===
         function openInSafari() {
           const currentUrl = window.location.href;
+          // x-safari-https:// работает в Telegram, Chrome iOS и других WebView
           const safariUrl = currentUrl
             .replace(/^https:\/\//, 'x-safari-https://')
             .replace(/^http:\/\//, 'x-safari-http://');
@@ -481,11 +484,32 @@
           } else if (mode === 'ios-other') {
             // 📱 iOS, не Safari → перенаправить в Safari (без копирования!)
             const browserName = getBrowserName();
-            titleEl.textContent = 'Нужен Safari';
-            subtitleEl.textContent = browserName + ' не может установить приложение';
+            titleEl.textContent = 'Откройте в Safari';
+            subtitleEl.textContent = 'Установить можно только через Safari';
             btn.textContent = '🧭 Открыть в Safari';
             btn.style.display = 'inline-block';
-            stepsEl.innerHTML = 'Safari откроется автоматически —<br>там нажмите <b>Поделиться</b> → <b>«На экран «Домой»»</b>';
+            stepsEl.innerHTML = `
+              <div class="ios-guide">
+                <div class="ios-steps-list">
+                  <div class="ios-step">
+                    <div class="ios-step-num">1</div>
+                    <span>Нажмите кнопку ниже — откроется <b>Safari</b></span>
+                  </div>
+                  <div class="ios-step">
+                    <div class="ios-step-num">2</div>
+                    <span>В Safari нажмите
+                      <svg class="share-icon-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2v13M7 7l5-5 5 5"/>
+                        <path d="M20 16v4a1 1 0 01-1 1H5a1 1 0 01-1-1v-4"/>
+                      </svg>
+                      <b>Поделиться</b> внизу</span>
+                  </div>
+                  <div class="ios-step">
+                    <div class="ios-step-num">3</div>
+                    <span>Выберите <b>«На экран «Домой»»</b> → <b>Добавить</b> 🎉</span>
+                  </div>
+                </div>
+              </div>`;
             btn.onclick = () => { openInSafari(); };
 
           } else if (mode === 'android-other') {
@@ -510,14 +534,32 @@
               btn.onclick = () => { openInChrome(); };
             } else if (isIOS) {
               titleEl.textContent = 'Откройте в Safari';
-              subtitleEl.textContent = 'Установка из ' + browserName + ' невозможна';
-              btn.textContent = 'Открыть в Safari';
+              subtitleEl.textContent = 'Установка из ' + browserName + ' недоступна';
+              btn.textContent = '🧭 Открыть в Safari';
               btn.style.display = 'inline-block';
-              stepsEl.innerHTML = 'В Safari нажмите <b>Поделиться</b> → <b>«На экран Домой»</b>';
-              btn.onclick = () => {
-                navigator.clipboard.writeText(window.location.href).catch(() => { });
-                openInSafari();
-              };
+              stepsEl.innerHTML = `
+                <div class="ios-guide">
+                  <div class="ios-steps-list">
+                    <div class="ios-step">
+                      <div class="ios-step-num">1</div>
+                      <span>Нажмите кнопку ниже — откроется <b>Safari</b></span>
+                    </div>
+                    <div class="ios-step">
+                      <div class="ios-step-num">2</div>
+                      <span>В Safari нажмите
+                        <svg class="share-icon-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M12 2v13M7 7l5-5 5 5"/>
+                          <path d="M20 16v4a1 1 0 01-1 1H5a1 1 0 01-1-1v-4"/>
+                        </svg>
+                        <b>Поделиться</b> внизу</span>
+                    </div>
+                    <div class="ios-step">
+                      <div class="ios-step-num">3</div>
+                      <span>Выберите <b>«На экран «Домой»»</b> → <b>Добавить</b> 🎉</span>
+                    </div>
+                  </div>
+                </div>`;
+              btn.onclick = () => { openInSafari(); };
             } else {
               showDesktopChromePrompt(titleEl, subtitleEl, btn, stepsEl);
             }
