@@ -170,6 +170,85 @@
         outline: none;
         box-sizing: border-box;
       }
+
+      /* ===== iOS Safari visual guide ===== */
+      .ios-guide {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        width: 100%;
+        max-width: 320px;
+      }
+
+      .ios-steps-list {
+        background: rgba(255,255,255,0.07);
+        border: 1px solid rgba(255,255,255,0.12);
+        border-radius: 16px;
+        padding: 1rem 1.2rem;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        text-align: left;
+      }
+
+      .ios-step {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-size: 0.95rem;
+        line-height: 1.4;
+      }
+
+      .ios-step-num {
+        width: 28px;
+        height: 28px;
+        background: linear-gradient(135deg, #c681f4, #d38080);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        font-size: 0.85rem;
+        flex-shrink: 0;
+      }
+
+      .share-icon-inline {
+        display: inline-block;
+        width: 22px;
+        height: 22px;
+        vertical-align: middle;
+        margin: 0 2px;
+        position: relative;
+        top: -1px;
+      }
+
+      /* Bouncing arrow pointing down */
+      .ios-arrow-wrap {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        margin-top: 0.5rem;
+      }
+
+      .ios-arrow-label {
+        font-size: 0.8rem;
+        opacity: 0.6;
+        letter-spacing: 0.05em;
+      }
+
+      .ios-bounce-arrow {
+        font-size: 2.5rem;
+        animation: ios-bounce 1.4s ease-in-out infinite;
+        line-height: 1;
+      }
+
+      @keyframes ios-bounce {
+        0%, 100% { transform: translateY(0); opacity: 1; }
+        50% { transform: translateY(10px); opacity: 0.7; }
+      }
     </style>
   </head>
   <body class="bg-dark-charcoal">
@@ -368,22 +447,45 @@
             };
 
           } else if (mode === 'ios-safari') {
-            // 📱 iOS Safari: инструкция
-            titleEl.textContent = 'Добавьте на главный экран';
-            subtitleEl.textContent = 'Для быстрого доступа как приложение';
+            // 📱 iOS Safari: визуальная инструкция
+            titleEl.textContent = 'Добавьте на экран «Домой»';
+            subtitleEl.textContent = 'Три шага — и приложение у вас!';
             btn.style.display = 'none';
-            stepsEl.innerHTML = 'Нажмите <b>Поделиться</b> ' +
-              '<img src="https://ic.willsentance.com/share-ios.svg" style="height:1.1em;vertical-align:middle"> внизу экрана,<br>' +
-              'затем <b>«На экран «Домой»»</b>';
+            stepsEl.innerHTML = `
+              <div class="ios-guide">
+                <div class="ios-steps-list">
+                  <div class="ios-step">
+                    <div class="ios-step-num">1</div>
+                    <span>Нажмите кнопку
+                      <svg class="share-icon-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2v13M7 7l5-5 5 5"/>
+                        <path d="M20 16v4a1 1 0 01-1 1H5a1 1 0 01-1-1v-4"/>
+                      </svg>
+                      <b>внизу экрана</b></span>
+                  </div>
+                  <div class="ios-step">
+                    <div class="ios-step-num">2</div>
+                    <span>Выберите <b>«На экран «Домой»»</b></span>
+                  </div>
+                  <div class="ios-step">
+                    <div class="ios-step-num">3</div>
+                    <span>Нажмите <b>«Добавить»</b> — готово! 🎉</span>
+                  </div>
+                </div>
+                <div class="ios-arrow-wrap">
+                  <span class="ios-arrow-label">кнопка внизу</span>
+                  <span class="ios-bounce-arrow">↓</span>
+                </div>
+              </div>`;
 
           } else if (mode === 'ios-other') {
-            // 📱 iOS, не Safari → перенаправить в Safari
+            // 📱 iOS, не Safari → перенаправить в Safari (без копирования!)
             const browserName = getBrowserName();
-            titleEl.textContent = 'Откройте в Safari';
-            subtitleEl.textContent = browserName + ' не поддерживает установку';
-            btn.textContent = 'Открыть в Safari';
+            titleEl.textContent = 'Нужен Safari';
+            subtitleEl.textContent = browserName + ' не может установить приложение';
+            btn.textContent = '🧭 Открыть в Safari';
             btn.style.display = 'inline-block';
-            stepsEl.innerHTML = 'В Safari нажмите <b>Поделиться</b> → <b>«На экран Домой»</b>';
+            stepsEl.innerHTML = 'Safari откроется автоматически —<br>там нажмите <b>Поделиться</b> → <b>«На экран «Домой»»</b>';
             btn.onclick = () => { openInSafari(); };
 
           } else if (mode === 'android-other') {
