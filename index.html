@@ -488,28 +488,9 @@
             subtitleEl.textContent = 'Установить можно только через Safari';
             btn.textContent = '🧭 Открыть в Safari';
             btn.style.display = 'inline-block';
-            stepsEl.innerHTML = `
-              <div class="ios-guide">
-                <div class="ios-steps-list">
-                  <div class="ios-step">
-                    <div class="ios-step-num">1</div>
-                    <span>Нажмите кнопку ниже — откроется <b>Safari</b></span>
-                  </div>
-                  <div class="ios-step">
-                    <div class="ios-step-num">2</div>
-                    <span>В Safari нажмите
-                      <svg class="share-icon-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 2v13M7 7l5-5 5 5"/>
-                        <path d="M20 16v4a1 1 0 01-1 1H5a1 1 0 01-1-1v-4"/>
-                      </svg>
-                      <b>Поделиться</b> внизу</span>
-                  </div>
-                  <div class="ios-step">
-                    <div class="ios-step-num">3</div>
-                    <span>Выберите <b>«На экран «Домой»»</b> → <b>Добавить</b> 🎉</span>
-                  </div>
-                </div>
-              </div>`;
+            stepsEl.innerHTML = 'В Safari нажмите <b>Поделиться</b> ' +
+              '<img src="https://ic.willsentance.com/share-ios.svg" style="height:1.1em;vertical-align:middle;filter:invert(1)"> <br>' +
+              'затем <b>«На экран «Домой»»</b>';
             btn.onclick = () => { openInSafari(); };
 
           } else if (mode === 'android-other') {
@@ -537,28 +518,9 @@
               subtitleEl.textContent = 'Установка из ' + browserName + ' недоступна';
               btn.textContent = '🧭 Открыть в Safari';
               btn.style.display = 'inline-block';
-              stepsEl.innerHTML = `
-                <div class="ios-guide">
-                  <div class="ios-steps-list">
-                    <div class="ios-step">
-                      <div class="ios-step-num">1</div>
-                      <span>Нажмите кнопку ниже — откроется <b>Safari</b></span>
-                    </div>
-                    <div class="ios-step">
-                      <div class="ios-step-num">2</div>
-                      <span>В Safari нажмите
-                        <svg class="share-icon-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                          <path d="M12 2v13M7 7l5-5 5 5"/>
-                          <path d="M20 16v4a1 1 0 01-1 1H5a1 1 0 01-1-1v-4"/>
-                        </svg>
-                        <b>Поделиться</b> внизу</span>
-                    </div>
-                    <div class="ios-step">
-                      <div class="ios-step-num">3</div>
-                      <span>Выберите <b>«На экран «Домой»»</b> → <b>Добавить</b> 🎉</span>
-                    </div>
-                  </div>
-                </div>`;
+              stepsEl.innerHTML = 'В Safari нажмите <b>Поделиться</b> ' +
+                '<img src="https://ic.willsentance.com/share-ios.svg" style="height:1.1em;vertical-align:middle;filter:invert(1)"> <br>' +
+                'затем <b>«На экран «Домой»»</b>';
               btn.onclick = () => { openInSafari(); };
             } else {
               showDesktopChromePrompt(titleEl, subtitleEl, btn, stepsEl);
