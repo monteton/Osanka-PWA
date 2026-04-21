@@ -1,4 +1,4 @@
-const CACHE_NAME = 'osanka-pwa-v3';
+const CACHE_NAME = 'osanka-pwa-v4';
 const META_CACHE  = 'osanka-meta-v1';   // отдельный кеш для метаданных
 const DAYS_90_MS  = 90 * 24 * 60 * 60 * 1000; // 90 дней в миллисекундах
 

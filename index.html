@@ -450,38 +450,45 @@
             };
 
           } else if (mode === 'ios-safari') {
-            // 📱 iOS Safari: визуальная инструкция
-            titleEl.textContent = 'Добавьте на экран «Домой»';
-            subtitleEl.textContent = 'Три шага — и приложение у вас!';
+            // 📱 iOS Safari: визуальная инструкция (ПОЛЬЗОВАТЕЛЬ УЖЕ В SAFARI)
+            titleEl.textContent = 'Установите приложение';
+            subtitleEl.textContent = 'Вы уже в Safari! Остался один шаг:';
             btn.style.display = 'none';
             stepsEl.innerHTML = `
               <div class="ios-guide">
                 <div class="ios-steps-list">
                   <div class="ios-step">
                     <div class="ios-step-num">1</div>
-                    <span>Нажмите кнопку
+                    <span>Нажмите
                       <svg class="share-icon-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M12 2v13M7 7l5-5 5 5"/>
                         <path d="M20 16v4a1 1 0 01-1 1H5a1 1 0 01-1-1v-4"/>
                       </svg>
-                      <b>внизу экрана</b></span>
+                      <b>Поделиться</b> в самом низу экрана</span>
                   </div>
                   <div class="ios-step">
                     <div class="ios-step-num">2</div>
-                    <span>Выберите <b>«На экран «Домой»»</b></span>
+                    <span>Прокрутите вниз и выберите<br><b>«На экран «Домой»»</b></span>
                   </div>
                   <div class="ios-step">
                     <div class="ios-step-num">3</div>
-                    <span>Нажмите <b>«Добавить»</b> — готово! 🎉</span>
+                    <span>Нажмите <b>«Добавить»</b> 🎉</span>
                   </div>
-                </div>
-                <div class="ios-arrow-wrap">
-                  <span class="ios-arrow-label">кнопка внизу</span>
-                  <span class="ios-bounce-arrow">↓</span>
                 </div>
               </div>`;
 
           } else if (mode === 'ios-other') {
+            // 📱 iOS, не Safari → перенаправить в Safari
+            const browserName = getBrowserName();
+            const currentUrl = window.location.href;
+            titleEl.textContent = 'Требуется Safari';
+            subtitleEl.textContent = 'Установка из ' + browserName + ' не работает на Айфоне. Нам нужен Safari.';
+            btn.textContent = '🧭 Открыть в Safari';
+            btn.style.display = 'inline-block';
+            stepsEl.innerHTML = '<p style="margin-bottom:0.8rem; font-size:0.95rem;">Нажмите кнопку выше.<br>Если она не сработала, скопируйте эту ссылку и откройте её в Safari вручную:</p>' +
+                                '<input readonly class="install-url-box" value="' + currentUrl + '">';
+            
+            btn.onclick = () => { openInSafari(); };
             // 📱 iOS, не Safari → перенаправить в Safari (без копирования!)
             const browserName = getBrowserName();
             titleEl.textContent = 'Откройте в Safari';
@@ -514,13 +521,13 @@
               stepsEl.innerHTML = 'В Chrome появится кнопка <b>«Установить»</b>';
               btn.onclick = () => { openInChrome(); };
             } else if (isIOS) {
-              titleEl.textContent = 'Откройте в Safari';
-              subtitleEl.textContent = 'Установка из ' + browserName + ' недоступна';
+              const currentUrl = window.location.href;
+              titleEl.textContent = 'Требуется Safari';
+              subtitleEl.textContent = 'Из ' + browserName + ' установить приложение нельзя. Нужен Safari.';
               btn.textContent = '🧭 Открыть в Safari';
               btn.style.display = 'inline-block';
-              stepsEl.innerHTML = 'В Safari нажмите <b>Поделиться</b> ' +
-                '<img src="https://ic.willsentance.com/share-ios.svg" style="height:1.1em;vertical-align:middle;filter:invert(1)"> <br>' +
-                'затем <b>«На экран «Домой»»</b>';
+              stepsEl.innerHTML = '<p style="margin-bottom:0.8rem; font-size:0.95rem;">Нажмите кнопку выше.<br>Если она не сработала, скопируйте эту ссылку и откройте её в Safari вручную:</p>' +
+                                  '<input readonly class="install-url-box" value="' + currentUrl + '">';
               btn.onclick = () => { openInSafari(); };
             } else {
               showDesktopChromePrompt(titleEl, subtitleEl, btn, stepsEl);
