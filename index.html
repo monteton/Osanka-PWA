@@ -478,26 +478,17 @@
               </div>`;
 
           } else if (mode === 'ios-other') {
-            // 📱 iOS, не Safari → перенаправить в Safari
+            // 📱 iOS, не Safari → кнопка "Открыть в Safari" + ссылка на случай если не сработала
             const browserName = getBrowserName();
             const currentUrl = window.location.href;
             titleEl.textContent = 'Требуется Safari';
-            subtitleEl.textContent = 'Установка из ' + browserName + ' не работает на Айфоне. Нам нужен Safari.';
+            subtitleEl.textContent = 'Установка из ' + browserName + ' не работает. Нужен Safari.';
             btn.textContent = '🧭 Открыть в Safari';
             btn.style.display = 'inline-block';
-            stepsEl.innerHTML = '<p style="margin-bottom:0.8rem; font-size:0.95rem;">Нажмите кнопку выше.<br>Если она не сработала, скопируйте эту ссылку и откройте её в Safari вручную:</p>' +
-                                '<input readonly class="install-url-box" value="' + currentUrl + '">';
-            
-            btn.onclick = () => { openInSafari(); };
-            // 📱 iOS, не Safari → перенаправить в Safari (без копирования!)
-            const browserName = getBrowserName();
-            titleEl.textContent = 'Откройте в Safari';
-            subtitleEl.textContent = 'Установить можно только через Safari';
-            btn.textContent = '🧭 Открыть в Safari';
-            btn.style.display = 'inline-block';
-            stepsEl.innerHTML = 'В Safari нажмите <b>Поделиться</b> ' +
-              '<img src="https://ic.willsentance.com/share-ios.svg" style="height:1.1em;vertical-align:middle;filter:invert(1)"> <br>' +
-              'затем <b>«На экран «Домой»»</b>';
+            stepsEl.innerHTML =
+              '<p style="margin:0 0 0.8rem;font-size:0.95rem;">Нажмите кнопку — откроется Safari.<br>' +
+              'Если не сработало, скопируйте ссылку и откройте её в Safari вручную:</p>' +
+              '<input readonly class="install-url-box" value="' + currentUrl + '">';
             btn.onclick = () => { openInSafari(); };
 
           } else if (mode === 'android-other') {
